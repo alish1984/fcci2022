@@ -35,7 +35,7 @@ solvers
         relTol          0;
     }
 
-    "(U|h|k|epsilon)"
+    "(U|h|k|epsilon|Z)" //mixture fraction added
     {
         solver          PBiCGStab;
         preconditioner  DILU;
@@ -43,7 +43,7 @@ solvers
         relTol          0.05;
     }
 
-    "(U|h|k|epsilon)Final"
+    "(U|h|k|epsilon|Z)Final" //mixture fraction added
     {
         $U;
     }

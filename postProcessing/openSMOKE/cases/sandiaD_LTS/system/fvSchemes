@@ -38,6 +38,8 @@ divSchemes
     div(phi,Yi_h)       Gauss limitedLinear01 1;
     div(phi,k)          Gauss limitedLinear 1;
     div(((rho*nuEff)*dev2(T(grad(U)))))     Gauss linear;
+
+div(phi,Z)          Gauss limitedLinear01 1; //mixture fraction
 }
 
 laplacianSchemes
