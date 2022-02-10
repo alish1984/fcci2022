@@ -1,0 +1,19 @@
+name: ct-fcci2021-2
+channels:
+- cantera  # or use cantera/label/dev for alpha/beta packages
+- defaults
+- conda-forge
+dependencies:
+- python=3.7  # Cantera supports Python 3.6 and up
+- cantera
+#- ipython  #  (needed for nicer interactive command line)
+- matplotlib  #  (needed for plots)
+- python-graphviz  #  (needed for reaction path diagrams)
+- h5py  #  (needed for HDF/H5 output)
+#- pandas  #  (needed for pandas interface)
+- ipykernel
+- jupyterlab
+- pip
+- pip:
+#    - fluidfoam
+    - jupyter_latex_envs

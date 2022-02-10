@@ -1,0 +1,39 @@
+# Exports all required environment variables
+
+################################## OS++ #######################################
+#Compulsory paths
+export EIGEN_LIBRARY_PATH=/home/itvas/projects/fcci2022/externalLibs/eigen/eigen-3.3.7
+export BOOST_LIBRARY_PATH=/home/itvas/NumericalLibraries/boost/boost_1_70_0-gcc-8.4.0
+export RAPIDXML_LIBRARY_PATH=/home/itvas/projects/fcci2022/externalLibs/rapidxml/rapidxml-1.13
+export OPENSMOKE_LIBRARY_PATH=/home/itvas/projects/fcci2022/externalLibs/OSpp
+export LD_LIBRARY_PATH=/home/itvas/NumericalLibraries/boost/boost_1_70_0-gcc-8.4.0/lib/:$LD_LIBRARY_PATH
+################################## #### #######################################
+
+# For parallel runs
+#you must add boost library path to your .bashrc
+#you can do it for example like:
+#export LD_LIBRARY_PATH=/home/itvas/NumericalLibraries/boost/boost_1_70_0-gcc-8.3.0//lib/:$LD_LIBRARY_PATH
+
+#Options: ISAT support
+export ISAT_SUPPORT='-DEDCSMOKE_USE_ISAT=0'
+export ISAT_INCLUDE=
+export ISAT_LIBS=
+
+#Options
+export MKL_SUPPORT='-DOPENSMOKE_USE_MKL=0'
+export EXTERNAL_ODE_SOLVERS=
+
+#Only if the OPENSMOKE_USE_MKL is turned on
+export MKL_PATH=$HOME/intel/mkl
+export MKL_INCLUDE='$(MKL_PATH)/include'
+export MKL_LIBS=
+
+#Optional external ODE solvers
+export MEBDF_LIBS=
+export RADAU_LIBS=
+export DASPK_LIBS=
+export ODEPACK_LIBS=
+export DVODE_LIBS=
+export LINPACK_LIBS=
+export SUNDIALS_PATH=
+export SUNDIALS_LIBS=

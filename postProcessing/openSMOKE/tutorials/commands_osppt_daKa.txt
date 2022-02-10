@@ -1,0 +1,75 @@
+#set your openfoam version
+ofv2106
+
+mkdir $fcci2022_postostuts/osppt_daKa
+
+# copy osppt_omegaDot from the tools directory into tutorials
+cp -r $fcci2022_postostools/osppt_omegaDot/* $fcci2022_postostuts/osppt_daKa/
+
+# go to the destination
+cd $fcci2022_postostuts/osppt_daKa
+
+mv osppt_omegaDot.C osppt_daKa.C
+
+find ./* -type f -print0 | xargs -0 sed -i 's#osppt_omegaDot#osppt_daKa#g'
+
+
+# open the folder with atom
+cd ..
+atom osppt_daKa
+
+
+# we want to evaluate Damkohler (Da) and Karlovitz (Ka) numbers at each cell
+# we need to define an object and allocate space for them
+# there are different Da definitions
+# lets create them in osppt_daKa/createOpenSMOKEFields_daKa.H
+mv $fcci2022_postostuts/osppt_daKa/createOpenSMOKEFields_omegaDot.H $fcci2022_postostuts/osppt_daKa/createOpenSMOKEFields_daKa.H
+
+# the objects are volume scalar fields with the size equals to the mesh size
+# we can use xSpecies object
+# and create DaEta, DaL, chi, Ka, and tauChem
+# remove the rest
+
+# an object of class "CharacteristicChemicalTimesType" is required
+
+# you can read user defined options from case files and use them
+# see  $fcci2022_postostuts/readOptions.H
+
+
+# in $fcci2022_postostuts/osppt_daKa/osppt_daKa.C
+# replace createOpenSMOKEFields_omegaDot.H with  createOpenSMOKEFields_daKa.H
+# also add the header of the class (see openSMOKE_headers.H)
+
+# now we have to compute the values and fill the objects
+cp $fcci2022_postostools/osppt_daKa/getAndWriteDaKa.H $fcci2022_postostuts/osppt_daKa/
+rm $fcci2022_postostuts/osppt_daKa/getAndWriteRR.H
+
+# lets have a look at osppt_daKa/getAndWriteDaKa.H
+
+# in $fcci2022_postostuts/osppt_daKa/osppt_daKa.C
+# replace getAndWriteRR.H with  getAndWriteDaKa.H
+
+
+
+
+# we need to read Z, k and epsilon
+# read them in osppt_daKa/createFields.H
+
+# we need limiters by the user
+# (maximum_Ka, minimum_Ka)
+# (maximum_Da, minimum_Da)
+# (threshold_chemical_time)
+# (threshold_temperature_chemical_time)
+# and also the method for the evaluation of chemical times
+# (characteristic_chemical_times_type)
+
+
+# to compile:
+ofv2106
+cd $fcci2022_postostuts/osppt_daKa
+. mybashrc
+wclean
+wmake
+
+
+

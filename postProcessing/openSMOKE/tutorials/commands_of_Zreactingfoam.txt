@@ -1,0 +1,62 @@
+# set your openfoam version
+ofv2106
+
+# copy original reactingFoam solver into your local directory (here $fcci2022_postostuts)
+cp -r $FOAM_APP/solvers/combustion/reactingFoam/ $fcci2022_postostuts
+
+cd $fcci2022_postostuts
+
+mv reactingFoam/ ZReactingFoam
+
+cd ZReactingFoam/
+
+mv reactingFoam.C ZReactingFoam.C
+
+find ./* -type f -print0 | xargs -0 sed -i 's#reactingFoam#ZReactingFoam#g' 
+
+sed -i s#FOAM_APPBIN#FOAM_USER_APPBIN#g Make/files
+
+# open the folder with atom
+cd ..
+atom ZReactingFoam
+
+# duplicate createFields.H --> createFields_Z.H
+# add Z field (must be read) 
+# delete the rest 
+# add createFields_Z.H at the bottom of createFields.H
+# duplicate YEqn.H --> ZEqn.H 
+# add Z equation to be solved
+# delete the rest! 
+# add mixture fraction equation in the main function (ZReactingFoam.C)
+# compile your new solver 
+
+ofv2106
+cd $fcci2022_postostuts/ZReactingFoam
+. mybashrc
+wclean
+wmake
+
+# files modified/added :
+# - createFields_Z.H
+# - createFields.H
+# - ZEqn.H
+# - ZReactingFoam.C
+# - Make/files
+
+
+# case setup modifications:
+# you need schemes for divergence of Z --- > div(phi,Z)          Gauss limitedLinear01 1;
+# you need a solver for Z --- > |epsilon|Z ...
+# you need Z in 0 folder ---> let's use duplicate Ydefault but we need proper BC (see preProcessing)
+# Z_pilot = 0.04207 
+# Z_jet = 0.15551
+# Z_air = 0.0
+
+# you may also want to change the setFields if you want to be precise! 
+
+# rememebr to add Z into the 0.org folder 
+
+# !!!! MAKE SURE YOU CHANGE THE Allrun FILE (see controlDict) !!!!
+
+
+

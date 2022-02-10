@@ -1,0 +1,39 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2106                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      OSppOptions;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+kineticMechanism "openSMOKE-gri30";
+
+calcChemScales on;
+
+chemicalTimes
+{
+	// Calculation of chemical time
+        ChemicalTimesThreshold                  10.0;                   // maximum chemical time (default 0.10 s)
+        ChemicalTimesTemperatureThreshold       300.;                   // minimum temperature for carrying out the analysis (default 300 K)
+        ChemicalTimesType                       "formationRates";       // type of analysis: formationRates (default) | reactionRates | eigenvalues
+	minimum_Da 				1e-10;
+}
+
+
+CEMA
+{
+	CHEMTIMES_METHOD "JACOBIAN_MATRIX";
+	n_additional_conservative_modes 0;
+	//threshold_temperature_chemical_time 300.;
+	//threshold_chemical_time 0.1;
+}
+
+

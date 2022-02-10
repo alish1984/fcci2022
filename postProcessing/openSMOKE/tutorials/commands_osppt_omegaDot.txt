@@ -1,0 +1,71 @@
+#set your openfoam version 
+ofv2106 
+
+# copy the native reactingFoam solver into the local tools directory 
+cp -r $FOAM_APP/solvers/combustion/reactingFoam/ $fcci2022_postostuts
+
+# go to the destination
+cd $fcci2022_postostuts
+
+# rename the folder 
+mv reactingFoam/ osppt_omegaDot
+
+cd osppt_omegaDot 
+
+rm -rf rhoReactingBuoyantFoam rhoReactingFoam
+
+mv reactingFoam.C osppt_omegaDot.C
+
+find ./* -type f -print0 | xargs -0 sed -i 's#reactingFoam#osppt_omegaDot#g'
+sed -i s#FOAM_APPBIN#FOAM_USER_APPBIN#g Make/files
+
+# open the folder with atom 
+cd ..
+atom osppt_omegaDot
+
+# comment out (or delete) line 48..118
+
+# copy the contents of $fcci2022_postostools/osppt_omegaDot/osppt_omegaDot.C into the local directory
+cp $fcci2022_postostools/osppt_omegaDot/osppt_omegaDot.C  $fcci2022_postostutsosppt_omegaDot/
+# Lets have a look at osppt_omegaDot/osppt_omegaDot.C
+
+# copy $fcci2022_postostools/osppt_omegaDot/readOptions.H into the local directory 
+cp $fcci2022_postostools/osppt_omegaDot/readOptions.H  $fcci2022_postostutsosppt_omegaDot/
+# It is currently empty and will be used for other tools
+
+# copy $fcci2022_postostools/osppt_omegaDot/getAndWriteRR.H into the local directory
+cp $fcci2022_postostools/osppt_omegaDot/getAndWriteRR.H  $fcci2022_postostutsosppt_omegaDot/
+# Lets have a look at osppt_omegaDot/getAndWriteRR.H
+
+# copy $fcci2022_postostools/osppt_omegaDot/createOpenSMOKEFieldsGlobal.H into the local directory 
+cp $fcci2022_postostools/osppt_omegaDot/createOpenSMOKEFieldsGlobal.H  $fcci2022_postostutsosppt_omegaDot/
+# Lets have a look at osppt_omegaDot/createOpenSMOKEFieldsGlobal.H
+
+# copy $fcci2022_postostools/osppt_omegaDot/createOpenSMOKEFields_omegaDot.H into the local directory 
+cp $fcci2022_postostools/osppt_omegaDot/createOpenSMOKEFields_omegaDot.H  $fcci2022_postostutsosppt_omegaDot/
+# Lets have a look at osppt_omegaDot/createOpenSMOKEFields_omegaDot.H
+
+# copy $fcci2022_postostools/osppt_omegaDot/openSMOKE_headers.H into the local directory 
+cp $fcci2022_postostools/osppt_omegaDot/openSMOKE_headers.H  $fcci2022_postostutsosppt_omegaDot/
+# Lets have a look at osppt_omegaDot/openSMOKE_headers.H
+
+# add the header (#include "openSMOKE_headers.H") on top of your solver permeable (see line 32)
+# Lets have a look at osppt_omegaDot/osppt_omegaDot.C
+
+# copy $fcci2022_postostools/osppt_omegaDot/createFields.H into the local directory 
+cp $fcci2022_postostools/osppt_omegaDot/createFields.H  $fcci2022_postostutsosppt_omegaDot/
+# Lets have a look at osppt_omegaDot/createFields.H
+
+# Now we need to tell the solver where external libraries (and headers are)
+# copy $fcci2022_postostools/osppt_omegaDot/Make/options.H into the local Make directory 
+cp $fcci2022_postostools/osppt_omegaDot/Make/options.H  $fcci2022_postostutsosppt_omegaDot/Make/
+# Lets have a look at osppt_omegaDot/Make/options.H 
+
+
+# to compile:
+ofv2106 
+cd $fcci2022_postostuts/osppt_omegaDot
+. mybashrc 
+wclean
+wmake 
+

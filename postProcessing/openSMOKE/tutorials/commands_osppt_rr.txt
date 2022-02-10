@@ -1,0 +1,45 @@
+#set your openfoam version 
+ofv2106 
+
+mkdir $fcci2022_postostuts/osppt_rr
+
+# copy contents of osppt_omegaDot into osppt_rr
+cp -r $fcci2022_postostools/osppt_omegaDot/* $fcci2022_postostuts/osppt_rr/
+
+# go to the destination
+cd $fcci2022_postostuts/osppt_rr
+
+mv osppt_omegaDot.C osppt_rr.C
+
+find ./* -type f -print0 | xargs -0 sed -i 's#osppt_omegaDot#osppt_rr#g'
+
+
+# open the folder with atom 
+cd ..
+atom osppt_rr
+
+
+# we want to evaluate individual reaction rates at each cell 
+# we need to define an object and allocate space for it 
+# lets have a look at osppt_rr/createOpenSMOKEFields_omegaDot.H
+# the object would be similar to omegaDotSpecies object but with different size (i.e. size=NR)
+
+# lets create it in  osppt_rr/createOpenSMOKEFields_omegaDot.H
+# you can remove the rest of objects in case you want a clean code!
+
+# now we have to compute the reaction rates and fill the object 
+# lets have a look at osppt_rr/getAndWriteRR.H
+
+# to compile:
+ofv2106 
+cd $fcci2022_postostuts/osppt_rr
+. mybashrc 
+wclean
+wmake 
+
+
+
+
+
+
+
